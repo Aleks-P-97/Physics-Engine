@@ -8,6 +8,7 @@ Shader::Shader()
 
 Shader::~Shader()
 {
+	
 }
 
 
@@ -63,22 +64,62 @@ void Shader::CheckShaderCompilation(GLuint shader)
 		const int string_length = 1024;
 		GLchar log[string_length] = "";
 		glGetShaderInfoLog(shader, string_length, NULL, log);
+		std::cout << "Error Detected in CreateShader()"; //TODO: check why this is triggered! 
 		std::cerr << log << std::endl;
+	}
+	else
+	{
+		std::cout << "Shader: " << shader << " compiled sucessfully. " << std::endl;
 	}
 }
 
 
-void Shader::LinkProgram()
+void Shader::Link() //TODO : Add a list of shader types and a list of paths so that all the shaders can be created in a for loop.
 {
 	//CREATES A VERTEX SHADER
-	GLuint vertex_shader = CreateShader(GL_VERTEX_SHADER, "resource:///vs.glsl");
+	GLuint vertexShader = CreateShader(GL_VERTEX_SHADER, "./Shader files/shader.vs"); 
 
 	//CREATES A FRAGMENT SHADER
-	GLuint fragment_shader = CreateShader(GL_FRAGMENT_SHADER, "resource:///fs.glsl");
+	GLuint fragmentShader = CreateShader(GL_FRAGMENT_SHADER, "./Shader files/shader.fs"); 
+
+	program = glCreateProgram();
+
+	//Handle vertex shader
+	glAttachShader(program, vertexShader);
+	//glBindAttribLocation(program, eVertPos, "vertex_position");  //TODO
+	//glBindAttribLocation(program, eVertNorm, "vertex_normal");  //TODO
+	//glBindAttribLocation(program, eTexCoord, "texCoord"); //TODO
+	glDeleteShader(vertexShader);
+	glDetachShader(program, vertexShader); // TO Make sure it's in the right place
+
+	//Handle fragment shader
+	glAttachShader(program, fragmentShader);
+	//glBindFragDataLocation(program, eFragColour, "fragment_colour");  //TODO
+	glDeleteShader(fragmentShader);
+	glDetachShader(program, fragmentShader); // TO Make sure it's in the right place
+	glLinkProgram(program);
+
+	CheckLink();
 }
 
 
-void Shader::CheckLink(GLuint shader)
+void Shader::CheckLink()
 {
+	GLint link_status = GL_FALSE;
+	glGetProgramiv(program, GL_LINK_STATUS, &link_status);
 
+	std::cout << "Link status: " << link_status << std::endl; 
+
+	if (link_status != GL_TRUE)
+	{
+		const int string_length = 1024;
+		GLchar errorLog[string_length] = "";
+		glGetProgramInfoLog(program, string_length, NULL, errorLog);
+		std::cout << "Error Detected in LinkProgram()"; //TODO: check why this is triggered!
+		std::cerr << errorLog << std::endl;
+	}
+	else 
+	{
+		std::cout << "Successful Link Established!" << std::endl; 
+	}
 }

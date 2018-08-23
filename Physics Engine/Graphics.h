@@ -22,6 +22,31 @@ public:
 
 private: 
 	
+	/*
+	*	Encapsulate the vertex array and buffer objects into a data
+	*   structure to make it easy to have many of them in the future.
+	*/
+	struct MeshGL
+	{
+		// VertexBufferObject for the normal
+		GLuint normal_vbo{ 0 };
+
+		// VertexBufferObject for the vertex positions
+		GLuint position_vbo{ 0 };
+
+		// VertexBufferObject for the texCoords
+		GLuint texCoord_vbo{ 0 };
+
+		// VertexBufferObject for the elements (indices)
+		GLuint element_vbo{ 0 };
+
+		// VertexArrayObject for the shape's vertex array settings
+		GLuint vao{ 0 };
+
+		// Needed for when we draw using the vertex arrays
+		int element_count{ 0 };
+	};
+
 	//SDL objects
 	SDL_Window * win; 
 	SDL_Renderer * ren;
@@ -29,9 +54,6 @@ private:
 
 	//Other Objects
 	Shader shaderManager; 
-
-	// -------------------------- TO ADD ------------------------------//
-	//OpenGL vars
 
 	/*
 	*	Defining integer constants to improve readability. Any integers

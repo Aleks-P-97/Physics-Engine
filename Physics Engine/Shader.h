@@ -32,7 +32,7 @@ public:
 	*   the link process will fail. Once the program gets the shader 
 	*   stage information, the shaders can be detatched and deleted. 
 	*/
-	void LinkProgram();
+	void Link();
 
 	
 private: 
@@ -41,9 +41,14 @@ private:
 	// The enums are used to keep track of the magic numbers in OpenGL.
 	enum VertexAttribIndices
 	{
-		kVertPos = 0,
-		kVertNorm = 1,
-		kTexCoord = 2
+		eVertPos = 0,
+		eVertNorm = 1,
+		eTexCoord = 2
+	};
+
+	enum FragmentDataIndexes
+	{
+		eFragColour = 0
 	};
 
 	/*
@@ -56,6 +61,6 @@ private:
 	*	Called in LinkProgram(). Test if the shader program linked successfully.
 	*   If not then get the error log and display in the console window.
 	*/
-	void CheckLink(GLuint shader);
+	void CheckLink();
 };
 

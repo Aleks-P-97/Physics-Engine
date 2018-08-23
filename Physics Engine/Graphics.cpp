@@ -55,7 +55,7 @@ void Graphics::Update()
 	glClearColor(0.02f, 0.3f, 0.4f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	shaderManager.LinkProgram();
+	shaderManager.Link();
 
 	//Swaps the buffers
 	SDL_GL_SwapWindow(win);
