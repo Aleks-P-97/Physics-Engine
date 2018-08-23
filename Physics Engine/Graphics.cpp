@@ -52,6 +52,11 @@ Graphics::~Graphics()
 
 void Graphics::Update() 
 {
+	glClearColor(0.02f, 0.3f, 0.4f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	shaderManager.LinkProgram();
+
 	//Swaps the buffers
 	SDL_GL_SwapWindow(win);
 
@@ -64,7 +69,7 @@ void Graphics::Update()
 		if (e.type == SDL_QUIT) 
 		{
 			windowClosed = true; 
-		}
+		}		
 	}
 }
 
@@ -77,5 +82,5 @@ void Graphics::Render()
 
 bool Graphics::GetWindowState()
 {
-	return !windowClosed; // --------------- Would this be confusing later on ??
+	return !windowClosed; 
 }
